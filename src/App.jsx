@@ -5,6 +5,7 @@ import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import DashboardPage from './pages/DashboardPage'
+import TransactionsPage from './pages/TransactionsPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import PublicRoute from './components/PublicRoute'
 
@@ -29,6 +30,9 @@ export default function App() {
         } />
         <Route path="/dashboard" element={
           <ProtectedRoute><DashboardPage /></ProtectedRoute>
+        } />
+        <Route path="/transactions" element={
+          <ProtectedRoute><TransactionsPage /></ProtectedRoute>
         } />
       </Routes>
     </BrowserRouter>
