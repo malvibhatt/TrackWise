@@ -1,23 +1,38 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { registerUser } from '../api/auth'
 import './AuthPage.css'
 
 export default function RegisterPage() {
+  const navigate = useNavigate()
   const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' })
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value })
+    setError('')
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     if (form.password !== form.confirm) {
-      alert('Passwords do not match')
+      setError('Passwords do not match')
       return
     }
-    // backend integration will go here
-    console.log('Register:', form)
+    setLoading(true)
+    setError('')
+    try {
+      const data = await registerUser(form.name, form.email, form.password)
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(data.user))
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const passwordStrength = getPasswordStrength(form.password)
@@ -48,6 +63,8 @@ export default function RegisterPage() {
         <div className="auth-card">
           <h1>Create your account</h1>
           <p className="auth-sub">Join TrackWise and take charge of your money</p>
+
+          {error && <div className="alert alert-error">{error}</div>}
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="field">
@@ -127,7 +144,9 @@ export default function RegisterPage() {
               )}
             </div>
 
-            <button type="submit" className="btn-submit">Create Account</button>
+            <button type="submit" className="btn-submit" disabled={loading}>
+              {loading ? 'Creating account...' : 'Create Account'}
+            </button>
           </form>
 
           <div className="auth-divider"><span>or</span></div>

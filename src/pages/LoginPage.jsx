@@ -1,19 +1,34 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { loginUser } from '../api/auth'
 import './AuthPage.css'
 
 export default function LoginPage() {
+  const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value })
+    setError('')
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    // backend integration will go here
-    console.log('Login:', form)
+    setLoading(true)
+    setError('')
+    try {
+      const data = await loginUser(form.email, form.password)
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(data.user))
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -43,6 +58,8 @@ export default function LoginPage() {
           <h1>Welcome back</h1>
           <p className="auth-sub">Sign in to your TrackWise account</p>
 
+          {error && <div className="alert alert-error">{error}</div>}
+
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="field">
               <label htmlFor="email">Email address</label>
@@ -61,7 +78,7 @@ export default function LoginPage() {
             <div className="field">
               <div className="field-header">
                 <label htmlFor="password">Password</label>
-                <a href="#" className="forgot-link">Forgot password?</a>
+                <Link to="/forgot-password" className="forgot-link">Forgot password?</Link>
               </div>
               <div className="password-wrap">
                 <input
@@ -85,7 +102,9 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <button type="submit" className="btn-submit">Sign In</button>
+            <button type="submit" className="btn-submit" disabled={loading}>
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
           </form>
 
           <div className="auth-divider"><span>or</span></div>
