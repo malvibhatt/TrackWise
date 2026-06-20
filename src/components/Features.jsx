@@ -4,7 +4,7 @@ const features = [
   {
     icon: '📊',
     title: 'Know Where Your Money Goes',
-    description: 'Log every expense and income with categories. See a clear monthly breakdown — groceries, rent, dining — so nothing is a mystery.',
+    description: 'Log every expense and income with categories. See a clear monthly breakdown by groceries, rent, dining and more, so nothing is a mystery.',
   },
   {
     icon: '🏠',
@@ -29,7 +29,7 @@ const features = [
   {
     icon: '📈',
     title: 'See the Trend Over Time',
-    description: 'Month-over-month charts show income vs. expenses and spending trends — so you know if things are improving or slipping.',
+    description: 'Month-over-month charts show income vs. expenses and spending trends, so you know if things are improving or slipping.',
   },
 ]
 
@@ -40,7 +40,7 @@ export default function Features() {
         <div className="section-label">About the Product</div>
         <h2>Everything you need to manage money <span className="text-green">together</span></h2>
         <p className="section-sub">
-          Real problems, real solutions — built for households who want clarity without complexity.
+          Real problems, real solutions. Built for households who want clarity without complexity.
         </p>
         <div className="features-grid">
           {features.map((f) => (

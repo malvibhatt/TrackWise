@@ -9,7 +9,7 @@ export default function Hero() {
         <span className="hero-badge">Personal & Household Finance</span>
         <h1>Take control of your<br /><span className="hero-highlight">financial future</span></h1>
         <p>
-          TrackWise helps you and your household track every rupee — log expenses,
+          TrackWise helps you and your household track every rupee. Log expenses,
           set budgets, hit savings goals, and finally understand where your money goes.
         </p>
         <div className="hero-actions">

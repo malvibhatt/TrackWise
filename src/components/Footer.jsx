@@ -10,7 +10,7 @@ export default function Footer() {
             <span className="logo-icon">T</span>
             <span>TrackWise</span>
           </div>
-          <p>Your household finance companion. Track, budget, and save — together.</p>
+          <p>Your household finance companion. Track, budget, and save together.</p>
         </div>
 
         <div className="footer-links">
