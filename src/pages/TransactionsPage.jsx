@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import DashboardHeader from '../components/DashboardHeader'
 import AddTransactionModal from '../components/AddTransactionModal'
@@ -31,23 +31,24 @@ export default function TransactionsPage() {
   const [loading, setLoading]         = useState(true)
   const [showModal, setShowModal]     = useState(false)
 
-  const fetchTransactions = useCallback(async () => {
-    setLoading(true)
-    try {
-      const data = await getTransactions({
-        month,
-        year,
-        type: typeFilter !== 'all' ? typeFilter : undefined,
-      })
-      setTransactions(data)
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setLoading(false)
+  useEffect(() => {
+    async function load() {
+      setLoading(true)
+      try {
+        const data = await getTransactions({
+          month,
+          year,
+          type: typeFilter !== 'all' ? typeFilter : undefined,
+        })
+        setTransactions(data)
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
     }
+    load()
   }, [month, year, typeFilter])
-
-  useEffect(() => { fetchTransactions() }, [fetchTransactions])
 
   async function handleDelete(id) {
     if (!confirm('Delete this transaction?')) return

@@ -17,6 +17,8 @@ function formatDate(dateStr) {
 export default function DashboardPage() {
   const navigate = useNavigate()
   const now = new Date()
+  const currentMonth = now.getMonth() + 1
+  const currentYear = now.getFullYear()
 
   const [summary, setSummary]         = useState(null)
   const [recentTxns, setRecentTxns]   = useState([])
@@ -27,8 +29,8 @@ export default function DashboardPage() {
     async function load() {
       try {
         const [sum, txns] = await Promise.all([
-          getDashboardSummary({ month: now.getMonth() + 1, year: now.getFullYear() }),
-          getTransactions({ month: now.getMonth() + 1, year: now.getFullYear() }),
+          getDashboardSummary({ month: currentMonth, year: currentYear }),
+          getTransactions({ month: currentMonth, year: currentYear }),
         ])
         setSummary(sum)
         setRecentTxns(txns.slice(0, 5))
@@ -39,11 +41,11 @@ export default function DashboardPage() {
       }
     }
     load()
-  }, [])
+  }, [currentMonth, currentYear])
 
   function handleAdded(newTx) {
     setRecentTxns((prev) => [newTx, ...prev].slice(0, 5))
-    getDashboardSummary({ month: now.getMonth() + 1, year: now.getFullYear() })
+    getDashboardSummary({ month: currentMonth, year: currentYear })
       .then(setSummary)
       .catch(() => {})
   }
