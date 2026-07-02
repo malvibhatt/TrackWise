@@ -5,13 +5,11 @@ import './DashboardHeader.css'
 export default function DashboardHeader({ title }) {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
-  const [user, setUser] = useState(null)
-  const dropdownRef = useRef(null)
-
-  useEffect(() => {
+  const [user] = useState(() => {
     const stored = localStorage.getItem('user')
-    if (stored) setUser(JSON.parse(stored))
-  }, [])
+    return stored ? JSON.parse(stored) : null
+  })
+  const dropdownRef = useRef(null)
 
   useEffect(() => {
     function handleClickOutside(e) {
