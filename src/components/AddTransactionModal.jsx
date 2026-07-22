@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { addTransaction, getCategories } from '../api/transactions'
+import { useCurrency } from '../context/CurrencyContext.jsx'
 import './AddTransactionModal.css'
 
 const today = new Date().toISOString().split('T')[0]
@@ -9,6 +10,7 @@ function emptyForm() {
 }
 
 export default function AddTransactionModal({ onClose, onAdded }) {
+  const { currency } = useCurrency()
   const [form, setForm]         = useState(emptyForm())
   const [categories, setCategories] = useState([])
   const [loading, setLoading]   = useState(false)
@@ -70,7 +72,7 @@ export default function AddTransactionModal({ onClose, onAdded }) {
 
           <div className="form-row">
             <div className="field">
-              <label>Amount (₹)</label>
+              <label>Amount ({currency.symbol})</label>
               <input
                 type="number"
                 name="amount"

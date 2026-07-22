@@ -3,26 +3,12 @@ import Sidebar from '../components/Sidebar'
 import DashboardHeader from '../components/DashboardHeader'
 import AddTransactionModal from '../components/AddTransactionModal'
 import { getTransactions, deleteTransaction } from '../api/transactions'
+import { groupByDate } from '../utils/formatters'
+import { useCurrency } from '../context/CurrencyContext.jsx'
 import './TransactionsPage.css'
 
-function formatCurrency(amount) {
-  return `₹${Number(amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
-}
-
-function formatDate(dateStr) {
-  return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-}
-
-function groupByDate(transactions) {
-  return transactions.reduce((groups, tx) => {
-    const date = new Date(tx.date).toDateString()
-    if (!groups[date]) groups[date] = []
-    groups[date].push(tx)
-    return groups
-  }, {})
-}
-
 export default function TransactionsPage() {
+  const { formatCurrency, formatDate } = useCurrency()
   const now = new Date()
   const [month, setMonth]             = useState(now.getMonth() + 1)
   const [year, setYear]               = useState(now.getFullYear())

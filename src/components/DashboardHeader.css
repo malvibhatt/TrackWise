@@ -20,6 +20,39 @@
 
 .dash-header-right {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.currency-select-wrap {
+  position: relative;
+}
+
+.currency-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 8px 30px 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='%239ca3af' d='M5 7L1 3h8z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: background-color 0.15s;
+}
+
+.currency-select:hover {
+  background-color: #f9fafb;
+}
+
+.currency-select:focus {
+  outline: none;
+  border-color: #16a34a;
 }
 
 .user-btn {

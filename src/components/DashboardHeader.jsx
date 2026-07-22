@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useCurrency, CURRENCIES } from '../context/CurrencyContext.jsx'
 import './DashboardHeader.css'
 
 export default function DashboardHeader({ title }) {
   const navigate = useNavigate()
+  const { currency, setCurrency } = useCurrency()
   const [open, setOpen] = useState(false)
   const [user] = useState(() => {
     const stored = localStorage.getItem('user')
@@ -36,6 +38,21 @@ export default function DashboardHeader({ title }) {
       <h1 className="dash-title">{title}</h1>
 
       <div className="dash-header-right" ref={dropdownRef}>
+        <div className="currency-select-wrap">
+          <select
+            className="currency-select"
+            value={currency.code}
+            onChange={(e) => setCurrency(e.target.value)}
+            aria-label="Select currency"
+          >
+            {Object.values(CURRENCIES).map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.symbol} {c.code}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <button className="user-btn" onClick={() => setOpen(!open)}>
           <div className="user-avatar">{initials}</div>
           <div className="user-info">

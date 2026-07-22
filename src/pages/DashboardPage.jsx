@@ -4,18 +4,12 @@ import Sidebar from '../components/Sidebar'
 import DashboardHeader from '../components/DashboardHeader'
 import AddTransactionModal from '../components/AddTransactionModal'
 import { getDashboardSummary, getTransactions } from '../api/transactions'
+import { useCurrency } from '../context/CurrencyContext.jsx'
 import './DashboardPage.css'
-
-function formatCurrency(amount) {
-  return `₹${Number(amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
-}
-
-function formatDate(dateStr) {
-  return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
-}
 
 export default function DashboardPage() {
   const navigate = useNavigate()
+  const { formatCurrency, formatDate } = useCurrency()
   const now = new Date()
   const currentMonth = now.getMonth() + 1
   const currentYear = now.getFullYear()
